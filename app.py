@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from jose import jwt, JWTError, ExpiredSignatureError
 
@@ -41,9 +42,9 @@ def verify_token(data: TokenRequest):
         }
 
     except (ExpiredSignatureError, JWTError):
-        raise HTTPException(
+        return JSONResponse(
             status_code=401,
-            detail={"valid": False},
+            content={"valid": False},
         )
 
 
